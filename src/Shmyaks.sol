@@ -193,7 +193,7 @@ contract Shmyaks is ERC1155, Ownable{
   }
 
   function getCurrentPet() public view returns(string memory){
-    return string(abi.encodePacked(baseURI, uintToStr(idInfo[msg.sender]),'.jpg'));
+    return string(abi.encodePacked(baseURI, uintToStr(idInfo[msg.sender]),'.png'));
   }
 
   function giveCare() payable external {
@@ -208,8 +208,19 @@ contract Shmyaks is ERC1155, Ownable{
     players[petInfo[msg.sender]].hunger = 100;
   }
   function makeHappy() payable external {
-    require(msg.value >= 700000 gwei, "It needs to be at least 0.0007 ether to make happy your pet");
+    require(msg.value >= 700000 gwei, "It needs to be at least 0.0007 ether to feed your pet");
     players[petInfo[msg.sender]].happiness = 100;
+  }
+
+  function revive() payable external {
+    require(players[petInfo[msg.sender]].health == 0);
+    players[petInfo[msg.sender]].hunger = 100;
+    players[petInfo[msg.sender]].happiness = 100;
+    players[petInfo[msg.sender]].health = 100;
+    timer[msg.sender] = block.timestamp;
+    genesisTimer[msg.sender] = block.timestamp;
+    burn(msg.sender, DEAD, 1);
+    mint(msg.sender, YOUNG, 1, "");
   }
 
   function uintToStr(uint256 _i) internal pure returns (string memory _uintAsString) {
