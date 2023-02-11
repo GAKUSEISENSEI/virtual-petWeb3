@@ -201,16 +201,19 @@ contract Shmyaks is ERC1155, Ownable{
     require(msg.value >= 700000 gwei, "It needs to be at least 0.0007 ether to heal your pet");
     require(players[petInfo[msg.sender]].health < 90, "Your pet is in good condition< no need to cure");
     require(players[petInfo[msg.sender]].hunger > 80, "You need to feed your pet first");
+    require(players[petInfo[msg.sender]].health > 0, "Your pet is dead");
     players[petInfo[msg.sender]].health += msg.value / 10**15 * 10;
   }
 
   function feed() payable external {
     require(msg.value >= 700000 gwei, "It needs to be at least 0.0007 ether to feed your pet");
-    players[petInfo[msg.sender]].hunger = 100;
+    require(players[petInfo[msg.sender]].health > 0, "Your pet is dead");
+    players[petInfo[msg.sender]].hunger = players[petInfo[msg.sender]].hunger + 50;
   }
   function makeHappy() payable external {
     require(msg.value >= 700000 gwei, "It needs to be at least 0.0007 ether to feed your pet");
-    players[petInfo[msg.sender]].happiness = 100;
+    require(players[petInfo[msg.sender]].health > 0, "Your pet is dead");
+    players[petInfo[msg.sender]].happiness = players[petInfo[msg.sender]].happiness + 50;
   }
 
   function revive() payable external {
