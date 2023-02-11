@@ -105,7 +105,8 @@ contract Shmyaks is ERC1155, Ownable{
     delete players[petInfo[msg.sender]];
   }
 
-
+// current stats of pets is updated every 2 seconds due to if (block.timestamp - timer[msg.sender] > 2). To play you need to change it to your choice 
+// for example: block.timestamp - timer[msg.sender] > 300 means that stats will be updated every 5 mins. Also you need to change all lines with currentCycle variable
   function updateCycle() external {
     
     if (block.timestamp - timer[msg.sender] > 2) {
