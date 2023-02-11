@@ -13,7 +13,7 @@ interface IERC20 {
 
 contract Shmyaks is ERC1155, Ownable{
   IERC20 public token;
-  string public baseURI;
+  string public baseURI = "https://gateway.pinata.cloud/ipfs/QmZdkYySTGapJ77xSqQtaXjMjvSQ25B55WdYchccxnCaJA/";
   
 
   uint256 public constant YOUNG = 0;
@@ -44,8 +44,7 @@ contract Shmyaks is ERC1155, Ownable{
     mapping(address => uint256) genesisTimer;
     Player[] public players; // Array of players
 
-  constructor(address _token, string memory _URI) ERC1155(_URI){
-    baseURI = _URI;
+  constructor(address _token){
     token = IERC20(_token);
   }
 
